@@ -7,7 +7,7 @@ A project by Tomas Lobato.
 2. Install dependencies
 ```npm i```
 3. Install the Expo Go app on your phone if you don't have it yet (Android or iOS)
-![WhatsApp Image 2024-03-24 at 15 50 18](https://github.com/tomaslobato/expo-todo/assets/155578808/62e180ce-7069-424e-b69d-5693c2d652f4)
+![Screenshot_1](https://github.com/tomaslobato/expo-todo/assets/155578808/ca812719-e785-4423-a0e3-68ad3d1b0275)
 4. Start the development server
 ```npx expo start```
 5. Scan the QR Code with your phone's camera
