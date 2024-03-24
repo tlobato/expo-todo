@@ -1,10 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View } from "react-native";
+import Header from "./components/Header";
+import Tasks from "./components/Tasks";
+import { useState } from "react";
+import NewTaskButton from "./components/NewTaskButton";
+import NewTaskModal from "./components/NewTaskModal";
 
 export default function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tasks, setTasks] = useState([
+    { task: "walk dog", done: true, daily: false, timestamp: Date.now()},
+  ]);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Header />
+      <Tasks tasks={tasks} setTasks={setTasks} />
+      {/* new task button */}
+      {isModalOpen === false && <NewTaskButton onModalOpen={toggleModal} />}
+      <NewTaskModal isOpen={isModalOpen} toggleModal={toggleModal} setTasks={setTasks} tasks={tasks}/>
       <StatusBar style="auto" />
     </View>
   );
@@ -12,9 +30,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    flexDirection: "column",
   },
 });
