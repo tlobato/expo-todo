@@ -1,7 +1,7 @@
 # Multiplatform To-Do app built with React Native and Expo
 A project by Tomas Lobato.
 
-### How to run it:
+### Run it on your phone:
 1. Clone the repo to your machine
 ```git clone https://github.com/tomaslobato/expo-todo.git```
 
