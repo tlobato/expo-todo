@@ -17,16 +17,12 @@ export default function NewTaskModal({
   setTasks,
   tasks,
   selectedTask,
-  selectedIndex
+  selectedIndex,
 }) {
   const [input, setInput] = useState("");
 
-  useEffect(() => {
-    if (selectedTask) setInput(selectedTask.task);
-  }, [selectedTask]);
-
   const saveTask = async () => {
-    if (input === selectedTask.task || input === '') return closeModal();
+    if (input === selectedTask.task || input === "") return closeModal();
 
     const updatedTasks = [...tasks];
     updatedTasks[selectedIndex].task = input;
@@ -43,6 +39,13 @@ export default function NewTaskModal({
     setTasks(newTasks);
     await AsyncStorage.setItem("tasks", JSON.stringify(tasks));
     closeModal();
+  };
+
+  const setDaily = async (isDaily) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[selectedIndex].daily = isDaily;
+    setTasks(updatedTasks);
+    await AsyncStorage.setItem("tasks", JSON.stringify(updatedTasks));
   };
 
   if (selectedTask)
@@ -70,10 +73,46 @@ export default function NewTaskModal({
                   flexDirection: "row",
                   justifyContent: "flex-end",
                   alignItems: "center",
-                  gap: 12,
+                  gap: 5,
                   paddingVertical: 10,
                 }}
               >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    height: 36,
+                    alignItems: "center",
+                  }}
+                >
+                  <Pressable
+                    style={[
+                      styles.btn,
+                      selectedTask.daily === false && {
+                        backgroundColor: "#09f",
+                        color: "#fff",
+                      },
+                    ]}
+                    onPress={() => {
+                      setDaily(false);
+                    }}
+                  >
+                    <Text>Today</Text>
+                  </Pressable>
+                  <Pressable
+                    style={[
+                      styles.btn,
+                      selectedTask.daily === true && {
+                        backgroundColor: "#09f",
+                        color: "#fff",
+                      },
+                    ]}
+                    onPress={() => {
+                      setDaily(true);
+                    }}
+                  >
+                    <Text>Daily</Text>
+                  </Pressable>
+                </View>
                 <Pressable onPress={deleteTask}>
                   <Text style={[styles.btn, { backgroundColor: "red" }]}>
                     Delete Task
@@ -104,7 +143,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
   btn: {
     fontSize: 23,

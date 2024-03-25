@@ -31,13 +31,13 @@ export default function Tasks({ tasks, setTasks }) {
   const openModal = (task, index) => {
     setIsModalOpen(true);
     setSelectedTask(task);
-    setSelectedIndex(index)
+    setSelectedIndex(index);
   };
 
   const closeModal = (index) => {
     setIsModalOpen(false);
     setSelectedTask(null);
-    setSelectedIndex(null)
+    setSelectedIndex(null);
   };
 
   return (
@@ -57,17 +57,42 @@ export default function Tasks({ tasks, setTasks }) {
                       flexDirection: "row",
                       alignItems: "center",
                       gap: 8,
+                      height: 40,
                     }}
                     onPress={() => {
                       toggleDone(index);
                     }}
                   >
                     <AntDesign name="check" size={24} color="gray" />
-                    <Text style={[styles.doneTaskText, {width: 250}]}>{item.task}</Text>
+                    <Text style={[styles.doneTaskText, { width: 200 }]}>
+                      {item.task}
+                    </Text>
                   </Pressable>
 
-                  <Pressable style={{padding:6}} onPress={() => openModal(item, index)}>
-                    <Entypo name="dots-three-vertical" size={22} color="gray" />
+                  <Pressable
+                    style={{ flexDirection: "row", alignItems: "center" }}
+                    onPress={() => openModal(item, index)}
+                  >
+                    {item.daily && (
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          backgroundColor: "#09f",
+                          paddingHorizontal: 6,
+                          paddingVertical: 2,
+                          borderRadius: 8,
+                        }}
+                      >
+                        Daily
+                      </Text>
+                    )}
+                    <Text style={{ padding: 6 }}>
+                      <Entypo
+                        name="dots-three-vertical"
+                        size={22}
+                        color="gray"
+                      />
+                    </Text>
                   </Pressable>
                 </View>
               ) : (
@@ -77,14 +102,24 @@ export default function Tasks({ tasks, setTasks }) {
                       flexDirection: "row",
                       alignItems: "center",
                       gap: 8,
+                      height: 40,
                     }}
                     onPress={() => toggleDone(index)}
                   >
                     <Entypo name="circle" size={24} color="black" />
-                    <Text style={{ fontSize: 24, width: 250 }}>{item.task}</Text>
+                    <Text style={{ fontSize: 24, width: 200 }}>
+                      {item.task}
+                    </Text>
                   </Pressable>
 
-                  <Pressable style={{padding:6, flexDirection: 'row', justifyContent:'center'}} onPress={() => openModal(item, index)}>
+                  <Pressable
+                    style={{
+                      padding: 6,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                    }}
+                    onPress={() => openModal(item, index)}
+                  >
                     <Entypo
                       name="dots-three-vertical"
                       size={22}

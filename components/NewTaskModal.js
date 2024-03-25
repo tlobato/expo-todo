@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Modal,
   Pressable,
@@ -9,10 +9,12 @@ import {
   Text,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Feather} from '@expo/vector-icons'
+import { Feather } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
 
 export default function NewTaskModal({ isOpen, toggleModal, setTasks, tasks }) {
   const [input, setInput] = useState("");
+  const [daily, setDaily] = useState(false);
 
   const saveNewTask = async () => {
     if (input === "") return toggleModal();
@@ -20,7 +22,7 @@ export default function NewTaskModal({ isOpen, toggleModal, setTasks, tasks }) {
     const newTask = {
       task: input,
       done: false,
-      daily: false,
+      daily: daily,
       timestamp: Date.now(),
     };
 
@@ -42,28 +44,57 @@ export default function NewTaskModal({ isOpen, toggleModal, setTasks, tasks }) {
           <Pressable style={{ alignSelf: "flex-end" }} onPress={toggleModal}>
             <Feather name="x" size={20} color="black" />
           </Pressable>
-          <View
-            style={{ backgroundColor: "white", borderRadius: 10 }}
-          >
+          <View style={{ backgroundColor: "white", borderRadius: 10 }}>
             <Text>New Task</Text>
             <TextInput
               style={{ fontSize: 22 }}
               placeholder="Your task..."
               onChangeText={(newInput) => setInput(newInput)}
             />
-            <Pressable
-              onPress={() => {
-                /* Add logic to handle task submission */
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                gap: 6
               }}
-              style={[styles.btn, {backgroundColor: 'black'}]}
             >
-              <Text
-                style={{ color: "white", fontSize: 25 }}
+              <View style={{flexDirection: "row", height: 36, alignItems: "center"}}>
+                <Pressable
+                  style={[
+                    styles.btn,
+                    daily === false && {
+                      backgroundColor: "#09f",
+                      color: "#fff",
+                    },
+                  ]}
+                  onPress={() => {
+                    setDaily(false);
+                  }}
+                >
+                  <Text>Today</Text>
+                </Pressable>
+                <Pressable
+                  style={[
+                    styles.btn,
+                    daily === true && {
+                      backgroundColor: "#09f",
+                      color: "#fff",
+                    },
+                  ]}
+                  onPress={() => {
+                    setDaily(true);
+                  }}
+                >
+                  <Text>Daily</Text>
+                </Pressable>
+              </View>
+              <Pressable
                 onPress={saveNewTask}
+                style={[styles.btn, { backgroundColor: "black" }]}
               >
-                Save
-              </Text>
-            </Pressable>
+                <Text style={{ color: "white", fontSize: 25 }}>Save</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
