@@ -18,7 +18,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Header />
+      <Header setTasks={setTasks}/>
       <Tasks tasks={tasks} setTasks={setTasks} />
       {/* new task button */}
       {isModalOpen === false && <NewTaskButton onModalOpen={toggleModal} />}

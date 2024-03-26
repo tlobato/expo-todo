@@ -17,17 +17,24 @@ export default function NewTaskModal({
   setTasks,
   tasks,
   selectedTask,
-  selectedIndex,
 }) {
   const [input, setInput] = useState("");
 
-  const saveTask = async () => {
-    if (input === selectedTask.task || input === "") return closeModal();
+  const saveTask = async () => {  
+    setTasks((prevTasks) => {
+      const updatedTasks = [...prevTasks];
+      const taskToEdit = updatedTasks.find(task => task === selectedTask);
+      
+      if (taskToEdit) {
+        taskToEdit.task = input;
+        AsyncStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      }
+  
+      return updatedTasks;
+    });
 
-    const updatedTasks = [...tasks];
-    updatedTasks[selectedIndex].task = input;
-    setTasks(updatedTasks);
-    await AsyncStorage.setItem("tasks", JSON.stringify(tasks));
+    const storedTasks = await AsyncStorage.getItem("tasks");
+    console.log(storedTasks)
 
     closeModal();
   };
@@ -42,12 +49,13 @@ export default function NewTaskModal({
   };
 
   const setDaily = async (isDaily) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[selectedIndex].daily = isDaily;
+    const updatedTasks = tasks.map((task) =>
+      task === selectedTask ? { ...task, daily: isDaily } : task
+    );
+  
     setTasks(updatedTasks);
     await AsyncStorage.setItem("tasks", JSON.stringify(updatedTasks));
   };
-
   if (selectedTask)
     return (
       <Modal

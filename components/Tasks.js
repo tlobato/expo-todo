@@ -8,36 +8,41 @@ import EditTaskModal from "./EditTaskModal";
 export default function Tasks({ tasks, setTasks }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(null);
 
   const toggleDone = async (index) => {
     const updatedTasks = [...tasks];
     updatedTasks[index].done = !updatedTasks[index].done;
     setTasks(updatedTasks);
-    await AsyncStorage.setItem("tasks", JSON.stringify(tasks));
+    await AsyncStorage.setItem("tasks", JSON.stringify(updatedTasks));
   };
 
   useEffect(() => {
     const getTasks = async () => {
       const storedTasks = await AsyncStorage.getItem("tasks");
       if (storedTasks) {
-        setTasks(JSON.parse(storedTasks));
+        const parsedStoredTasks = JSON.parse(storedTasks);
+        const past24Hours = new Date().getTime() + 24 * 60 * 60 * 1000;
+        const tasksToKeep = parsedStoredTasks.filter(
+          (task) => task.daily || task.timestamp >= past24Hours
+        );
+
+        await AsyncStorage.setItem("tasks", JSON.stringify(tasksToKeep));
+        
+        setTasks([...tasksToKeep]);
       }
     };
 
     getTasks();
   }, []);
 
-  const openModal = (task, index) => {
+  const openModal = (task) => {
     setIsModalOpen(true);
     setSelectedTask(task);
-    setSelectedIndex(index);
   };
 
-  const closeModal = (index) => {
+  const closeModal = () => {
     setIsModalOpen(false);
     setSelectedTask(null);
-    setSelectedIndex(null);
   };
 
   return (
@@ -113,18 +118,29 @@ export default function Tasks({ tasks, setTasks }) {
                   </Pressable>
 
                   <Pressable
-                    style={{
-                      padding: 6,
-                      flexDirection: "row",
-                      justifyContent: "center",
-                    }}
+                    style={{ flexDirection: "row", alignItems: "center" }}
                     onPress={() => openModal(item, index)}
                   >
-                    <Entypo
-                      name="dots-three-vertical"
-                      size={22}
-                      color="black"
-                    />
+                    {item.daily && (
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          backgroundColor: "#09f",
+                          paddingHorizontal: 6,
+                          paddingVertical: 2,
+                          borderRadius: 8,
+                        }}
+                      >
+                        Daily
+                      </Text>
+                    )}
+                    <Text style={{ padding: 6 }}>
+                      <Entypo
+                        name="dots-three-vertical"
+                        size={22}
+                        color="gray"
+                      />
+                    </Text>
                   </Pressable>
                 </View>
               )}
@@ -138,7 +154,6 @@ export default function Tasks({ tasks, setTasks }) {
         setTasks={setTasks}
         tasks={tasks}
         selectedTask={selectedTask}
-        selectedIndex={selectedIndex}
       />
     </View>
   );

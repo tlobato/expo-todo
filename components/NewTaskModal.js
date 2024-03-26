@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Feather } from "@expo/vector-icons";
-import { Picker } from "@react-native-picker/picker";
 
 export default function NewTaskModal({ isOpen, toggleModal, setTasks, tasks }) {
   const [input, setInput] = useState("");
@@ -29,6 +28,7 @@ export default function NewTaskModal({ isOpen, toggleModal, setTasks, tasks }) {
     setTasks([...tasks, newTask]);
     await AsyncStorage.setItem("tasks", JSON.stringify([...tasks, newTask]));
 
+    setInput("");
     toggleModal();
   };
 
@@ -55,10 +55,16 @@ export default function NewTaskModal({ isOpen, toggleModal, setTasks, tasks }) {
               style={{
                 flexDirection: "row",
                 justifyContent: "flex-end",
-                gap: 6
+                gap: 6,
               }}
             >
-              <View style={{flexDirection: "row", height: 36, alignItems: "center"}}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  height: 36,
+                  alignItems: "center",
+                }}
+              >
                 <Pressable
                   style={[
                     styles.btn,
