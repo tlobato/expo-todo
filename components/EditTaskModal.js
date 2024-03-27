@@ -114,7 +114,7 @@ export default function NewTaskModal({
                         color: "#fff",
                       },
                     ]}
-                    onPress={() => {
+                    onPress={(ev) => {
                       setDaily(true);
                     }}
                   >
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   btn: {
-    fontSize: 23,
+    fontSize: 20,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,

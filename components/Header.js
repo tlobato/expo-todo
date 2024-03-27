@@ -17,16 +17,15 @@ export default function Header({setTasks}) {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: '#000',
-    paddingVertical: 16,
+    padding: 16,
     alignItems: 'center',
     marginHorizontal: 16,
     borderRadius: 16,
     width: 325,
     position: "absolute",
-    top: 44,
+    top: 10,
     zIndex: 20,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 16
   }
 })

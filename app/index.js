@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import Header from "./components/Header";
-import Tasks from "./components/Tasks";
+import Header from "../components/Header";
+import Tasks from "../components/Tasks";
 import { useState } from "react";
-import NewTaskButton from "./components/NewTaskButton";
-import NewTaskModal from "./components/NewTaskModal";
+import NewTaskButton from "../components/NewTaskButton";
+import NewTaskModal from "../components/NewTaskModal";
 
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);

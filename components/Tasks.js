@@ -46,7 +46,7 @@ export default function Tasks({ tasks, setTasks }) {
   };
 
   return (
-    <View style={{ paddingTop: 105, paddingBottom: 60 }}>
+    <View style={{ paddingTop: 70, paddingBottom: 60 }}>
       <FlatList
         style={{ paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={true}
@@ -138,7 +138,7 @@ export default function Tasks({ tasks, setTasks }) {
                       <Entypo
                         name="dots-three-vertical"
                         size={22}
-                        color="gray"
+                        color="black"
                       />
                     </Text>
                   </Pressable>
